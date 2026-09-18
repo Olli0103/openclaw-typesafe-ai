@@ -8,6 +8,22 @@ This is an independent integration. It is not an official TypeSafe AI or OpenCla
 
 Compatibility is pinned to **OpenClaw 2026.9.4** on Node **24.20.0**, macOS arm64. Checks passed against both the installed `6f80261` build, copied into an isolated test environment, and the published npm build `3a9d69d` after a clean dependency installation. No other OpenClaw release is claimed compatible.
 
+## Why this integration exists
+
+Another independent community package already uses TypeSafe AI with OpenClaw: [`openclaw-plugin-typesafe-ai`](https://clawhub.ai/plugins/openclaw-plugin-typesafe-ai), with source at [`jason-allen-oneal/openclaw-plugin-typesafe-ai`](https://github.com/jason-allen-oneal/openclaw-plugin-typesafe-ai). This package is not a fork, replacement or official successor. It implements a narrower contract.
+
+| | This package | Community package `0.1.3` reviewed on 2026-09-18 |
+| --- | --- | --- |
+| Invocation | One agent calls the optional `typesafe_decide` tool explicitly | Runtime hooks evaluate configured lifecycle events automatically |
+| Data submitted | Only caller-supplied `state`, `questions` and optional `model` | Depending on enabled features, bounded group messages or tool parameters |
+| OpenClaw surface | No hooks, model provider or background service | Group triage, tool guardrails, model routing, input audit and compaction hooks |
+| Credential path | OpenClaw capability-owned SecretInput reference | Plugin config string or `TYPESAFE_API_KEY` process environment |
+| OpenClaw 2026.9.4 disposable install | Passed for `0.1.2` from npm and ClawHub | `0.1.3` was rejected before load because its manifest category `agent-orchestration` was not recognized |
+
+Choose this package when an agent should make an explicit typed decision over deliberately supplied data without automatic conversation or tool-call interception. Consider the community package when the broader hook-based policy is the intended design, after verifying that its current release installs on the target OpenClaw version and that its automatic data flow matches the deployment's privacy policy.
+
+Both packages use the plugin ID `typesafe-ai`; a normal installation therefore cannot load them side by side. Inspect existing plugin inventory before installation and never overwrite one implementation with the other accidentally. The compatibility observation above is a point-in-time host test, not a security verdict on the other project.
+
 ## Build and verify
 
 Clone the source:
@@ -49,13 +65,13 @@ openclaw plugins install clawhub:openclaw-typesafe-ai
 The same release is also available through npm:
 
 ```sh
-openclaw plugins install npm:openclaw-typesafe-ai@0.1.1
+openclaw plugins install npm:openclaw-typesafe-ai@0.1.2
 ```
 
 For local artifact testing, install an explicitly reviewed tarball:
 
 ```sh
-openclaw plugins install npm-pack:/absolute/path/openclaw-typesafe-ai-0.1.1.tgz
+openclaw plugins install npm-pack:/absolute/path/openclaw-typesafe-ai-0.1.2.tgz
 ```
 
 Review the source and capability prompt. For a deliberate noninteractive local installation, OpenClaw supports `--force`; it also permits overwriting an existing target, so do not add it casually. This plugin shares the ID `typesafe-ai` with a community implementation. Inspect existing inventory before installation and do not overwrite an unrelated plugin.
@@ -203,4 +219,4 @@ Documentation was checked on 2026-09-18. The full indexes/bundles, all pages nam
 
 Two documentation contradictions matter. The HTTP overview shows string-only criteria while the advanced guide and SDK support structured descriptions; this plugin follows the latter. The primitives overview describes an approximate 32k shared budget, while the live models page and version-specific limitations specify the 64k/32k split; this plugin documents the specific model limits. The fetched full bundle also omitted the live model page's language-support section.
 
-Preflight searched ClawHub, npm, GitHub and the installed inventory. ClawHub exposed the vendor development skill. The [community TypeSafe plugin](https://github.com/jason-allen-oneal/openclaw-plugin-typesafe-ai) implements conversation hooks, triage, guardrails and routing, so it does not satisfy this tool-only, explicit-input contract. No suitable official maintained plugin was identified. Nothing from preflight was installed into the Gateway.
+The initial exact-name preflight searched ClawHub, npm, GitHub and the installed inventory, but it missed the differently named [community TypeSafe plugin](https://github.com/jason-allen-oneal/openclaw-plugin-typesafe-ai). A post-release duplicate review found and tested it, producing the comparison above. No suitable official maintained plugin was identified. Nothing from either package was installed into the live Gateway.
