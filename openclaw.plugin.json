@@ -1,5 +1,8 @@
 {
   "id": "typesafe-ai",
+  "categories": [
+    "models"
+  ],
   "configSchema": {
     "type": "object",
     "properties": {
@@ -127,7 +130,7 @@
   },
   "name": "TypeSafe AI",
   "description": "Optional typed decisions using TypeSafe AI Jev. Sends only explicit tool inputs to TypeSafe and can incur cost.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "activation": {
     "onStartup": false
   },

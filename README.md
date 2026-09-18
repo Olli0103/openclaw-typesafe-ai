@@ -43,19 +43,19 @@ Run these commands only when you intend to change your OpenClaw installation. In
 Prefer the OpenClaw-native ClawHub listing after its release review completes:
 
 ```sh
-openclaw plugins install clawhub:olli0103/openclaw-typesafe-ai
+openclaw plugins install clawhub:openclaw-typesafe-ai
 ```
 
 The same release is also available through npm:
 
 ```sh
-openclaw plugins install npm:openclaw-typesafe-ai@0.1.0
+openclaw plugins install npm:openclaw-typesafe-ai@0.1.1
 ```
 
 For local artifact testing, install an explicitly reviewed tarball:
 
 ```sh
-openclaw plugins install npm-pack:/absolute/path/openclaw-typesafe-ai-0.1.0.tgz
+openclaw plugins install npm-pack:/absolute/path/openclaw-typesafe-ai-0.1.1.tgz
 ```
 
 Review the source and capability prompt. For a deliberate noninteractive local installation, OpenClaw supports `--force`; it also permits overwriting an existing target, so do not add it casually. This plugin shares the ID `typesafe-ai` with a community implementation. Inspect existing inventory before installation and do not overwrite an unrelated plugin.

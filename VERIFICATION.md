@@ -27,10 +27,10 @@ Environment: macOS arm64, Node 24.20.0, TypeScript 5.9.3, Vitest 4.1.11. Initial
 | Published npm build | PASS. The clean installation's 2026.9.4 build `3a9d69d` also passes typecheck, build, all 102 tests, metadata check, validator and host smoke. |
 | Production dependency audit | PASS after the Ajv 8.20.0 update. `npm audit --omit=dev --json` reports zero vulnerabilities. |
 | ClawHub package validation | PASS with Plugin Inspector: zero breakages, warnings or findings. |
-| ClawHub publication dry-run | PASS. Recognizes family `code-plugin`, version `0.1.0`, 14 files and the declared OpenClaw 2026.9.4 compatibility contract. Nothing was published. |
+| ClawHub publication dry-run | PASS. Recognizes family `code-plugin`, version `0.1.1`, 14 files and the declared OpenClaw 2026.9.4 compatibility contract. Nothing was published. |
 | `npm publish --dry-run --access public` | PASS. Runs `prepublishOnly`, all 102 tests, host smoke and `prepack`, then previews a public `latest` release with 14 files. Nothing was published. |
 | `npm pack --dry-run --json` | PASS. Exactly 14 intended package entries. |
-| `npm pack --json` | PASS. Creates `openclaw-typesafe-ai-0.1.0.tgz`; SHA-256 `189db69ebc6dd8eec4e150429e27a850064a1da7997d4d77f15b28c7a9495ab8`. |
+| `npm pack --json` | PASS. Creates `openclaw-typesafe-ai-0.1.1.tgz`; SHA-256 `bc0aae7b1b7845be161f9970e44e43e8d4328d7161ddfbc22ed699f9c46b785a`. |
 | Tarball inspection | PASS. Each entry is a regular file and matches the local built artifact byte for byte. No fixtures, test credentials, private keys, environment files, local user paths, tests, scripts, source maps or dependency directory are shipped. |
 | Lint | Not configured. Typecheck, contract tests, plugin validation and Git whitespace review provide the applicable checks. |
 | Git review | The initial source additions were reviewed with a no-index diff against an empty directory. No whitespace errors or unrelated files were found. The public repository contains only this package. |
@@ -57,7 +57,7 @@ Documented contradictions remain visible in the README. The advanced guide and S
 
 Installation syntax was checked against the exact host's local guide and `plugins install --help`. A packaged installation, config reference, enable, allowlist, validation and runtime inspection were exercised only against disposable state. The live Gateway was not installed into or modified.
 
-The external manifest intentionally omits `categories`. OpenClaw 2026.9.4 validates the legacy taxonomy that includes `tools`, while the current ClawHub publication taxonomy retires `tools` and accepts omission for generated classification. Omission is valid for external plugins in both contracts and avoids claiming compatibility with a category slug the pinned host rejects.
+The manifest declares the single `models` category. It is valid in both the pinned OpenClaw 2026.9.4 taxonomy and the current ClawHub publication taxonomy, and matches ClawHub's classification of the typed decision backend.
 
 ## All changed files
 
@@ -95,7 +95,7 @@ Generated installable files, excluded from Git by design:
 - `dist/schema.js` and `dist/schema.d.ts`
 - `dist/client.js` and `dist/client.d.ts`
 - `dist/errors.js` and `dist/errors.d.ts`
-- `openclaw-typesafe-ai-0.1.0.tgz`
+- `openclaw-typesafe-ai-0.1.1.tgz`
 
 The tarball contains these ten `dist/` files plus `package.json`, `openclaw.plugin.json`, `README.md` and `LICENSE`. Development dependencies and temporary verification evidence are excluded.
 
