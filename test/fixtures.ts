@@ -1,0 +1,10 @@
+import type { DecideInput, DecideResult } from '../src/schema.js';
+export const FAKE_KEY = 'fake-typesafe-api-key-for-tests';
+export const PRIVATE_STATE = 'private-state-canary-never-in-errors';
+export const noulInput: DecideInput = { state: PRIVATE_STATE, questions: { urgent: { type: 'noul', instructions: 'Is this urgent?' } } };
+export const choiceInput: DecideInput = { state: { message: 'Please fix billing.' }, questions: { team: { type: 'choice', instructions: 'Which team?', criteria: { billing: 'Payments', support: null } } } };
+export const scoreInput: DecideInput = { state: ['The export fails.'], questions: { severity: { type: 'score', instructions: 'How severe?', criteria: ['Cosmetic', 'Workaround exists', 'Blocking'] } } };
+export const noulResult: DecideResult = { model: 'jev-1.13.0', answers: { urgent: { type: 'noul', noul: 0.92 } }, usage: { input_tokens: 32, output_tokens: 4 } };
+export const choiceResult: DecideResult = { model: 'jev-1.13.0', answers: { team: { type: 'choice', choice: 'billing', probabilities: { billing: 0.8, support: 0.2 }, confidence: 0.65 } }, usage: { input_tokens: 45, output_tokens: 8 } };
+export const scoreResult: DecideResult = { model: 'jev-1.13.0', answers: { severity: { type: 'score', score: 1.6, legend: { '0': 'Cosmetic', '1': 'Workaround exists', '2': 'Blocking' }, probabilities: { '0': 0.1, '1': 0.2, '2': 0.7 }, confidence: 0.6 } }, usage: { input_tokens: 70, output_tokens: 12 } };
+export const jsonResponse = (value: unknown, status = 200, headers: Record<string, string> = {}) => new Response(JSON.stringify(value), { status, headers: { 'Content-Type': 'application/json', ...headers } });
