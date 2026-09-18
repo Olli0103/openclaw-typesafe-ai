@@ -34,17 +34,31 @@ npm pack
 
 `npm ci` installs the published OpenClaw package. To repeat proof against an exact managed installation, use a copy of that installation as the development dependency, then run the same checks. Never edit the installed OpenClaw tree.
 
-The tarball contains built JavaScript, declarations, the plugin manifest and this README. Tests and development scripts stay in the source directory. The package is private to prevent accidental npm publication.
+The release tarball contains built JavaScript, declarations, the plugin manifest, this README and the MIT license. Tests and development scripts stay in the source directory. `prepack` rebuilds `dist/`, while `prepublishOnly` reruns the complete local gate before an npm release.
 
 ## Installation and explicit opt-in
 
 Run these commands only when you intend to change your OpenClaw installation. Installation can restart a managed Gateway automatically. No live installation was performed during development.
 
+Prefer the OpenClaw-native ClawHub listing after its release review completes:
+
+```sh
+openclaw plugins install clawhub:olli0103/openclaw-typesafe-ai
+```
+
+The same release is also available through npm:
+
+```sh
+openclaw plugins install npm:openclaw-typesafe-ai@0.1.0
+```
+
+For local artifact testing, install an explicitly reviewed tarball:
+
 ```sh
 openclaw plugins install npm-pack:/absolute/path/openclaw-typesafe-ai-0.1.0.tgz
 ```
 
-Review the source and capability prompt. For a deliberate noninteractive installation, OpenClaw supports `--force`; it also permits overwriting an existing target, so do not add it casually. This plugin shares the ID `typesafe-ai` with a community implementation. Inspect existing inventory before installation and do not overwrite an unrelated plugin.
+Review the source and capability prompt. For a deliberate noninteractive local installation, OpenClaw supports `--force`; it also permits overwriting an existing target, so do not add it casually. This plugin shares the ID `typesafe-ai` with a community implementation. Inspect existing inventory before installation and do not overwrite an unrelated plugin.
 
 Make `TYPESAFE_API_KEY` available to the Gateway process through your protected environment or existing secret manager. Never paste the key into chat, command arguments, source files or configuration examples. A terminal environment variable is not automatically inherited by an already running launchd service.
 

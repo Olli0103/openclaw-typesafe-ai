@@ -2,7 +2,17 @@
   "name": "openclaw-typesafe-ai",
   "version": "0.1.0",
   "description": "Optional typed Jev decisions for OpenClaw",
-  "private": true,
+  "license": "MIT",
+  "keywords": [
+    "openclaw",
+    "openclaw-plugin",
+    "typesafe-ai",
+    "jev",
+    "decision-tools"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Olli0103/openclaw-typesafe-ai.git"
@@ -18,7 +28,8 @@
   "files": [
     "dist",
     "openclaw.plugin.json",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "exports": {
     ".": "./dist/index.js"
@@ -31,7 +42,9 @@
     "test": "vitest run",
     "test:host": "node scripts/host-smoke.mjs",
     "smoke:live": "node scripts/live-smoke.mjs",
-    "check": "npm run typecheck && npm run plugin:build && npm test && npm run plugin:validate && npm run test:host"
+    "check": "npm run typecheck && npm run plugin:build && npm test && npm run plugin:validate && npm run test:host",
+    "prepack": "npm run build",
+    "prepublishOnly": "npm run check"
   },
   "dependencies": {
     "ajv": "8.20.0",

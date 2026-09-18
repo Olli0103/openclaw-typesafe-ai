@@ -1,6 +1,6 @@
 # Implementation and verification report
 
-Verified on 2026-09-18. The external package is ready for operator-controlled local installation. This report records checks completed before the separately authorized public GitHub publication. No live Gateway installation, configuration change, restart, npm publication or release was performed.
+Verified on 2026-09-18. The external package is ready for its first public registry release. This report records checks completed before the separately authorized public GitHub publication and before registry publication. No live Gateway installation, configuration change or restart, npm/ClawHub publication, tag or GitHub release was performed. One separately authorized TypeSafe API smoke call used protected credential egress and fixed synthetic input.
 
 ## Result
 
@@ -12,7 +12,7 @@ The direct client supplies bearer authentication, rejects redirects, propagates 
 
 ## Exact checks
 
-Environment: macOS arm64, Node 24.20.0, npm 10.9.8, TypeScript 5.9.3, Vitest 4.1.11. OpenClaw compatibility is pinned to 2026.9.4.
+Environment: macOS arm64, Node 24.20.0, TypeScript 5.9.3, Vitest 4.1.11. Initial implementation checks used npm 10.9.8; the release-candidate recheck used npm 11.19.0. OpenClaw compatibility is pinned to 2026.9.4.
 
 | Check | Result |
 | --- | --- |
@@ -25,8 +25,12 @@ Environment: macOS arm64, Node 24.20.0, npm 10.9.8, TypeScript 5.9.3, Vitest 4.1
 | `npm run test:host` | PASS. Actual loader, optional registration, zero providers, config validation, SecretRef and plaintext redaction, CLI SecretRef builder, allowlist and enable commands. All writes target disposable state and cache directories. |
 | Installed host build | PASS. The exact copied 2026.9.4 build `6f80261` passes the checks above. The installed source tree was read only. |
 | Published npm build | PASS. The clean installation's 2026.9.4 build `3a9d69d` also passes typecheck, build, all 102 tests, metadata check, validator and host smoke. |
-| `npm pack --dry-run --json --cache /tmp/jev-npm-cache` | PASS. Exactly 13 intended package entries. |
-| `npm pack --json --cache /tmp/jev-npm-cache` | PASS. Creates `openclaw-typesafe-ai-0.1.0.tgz`. |
+| Production dependency audit | PASS after the Ajv 8.20.0 update. `npm audit --omit=dev --json` reports zero vulnerabilities. |
+| ClawHub package validation | PASS with Plugin Inspector: zero breakages, warnings or findings. |
+| ClawHub publication dry-run | PASS. Recognizes family `code-plugin`, version `0.1.0`, 14 files and the declared OpenClaw 2026.9.4 compatibility contract. Nothing was published. |
+| `npm publish --dry-run --access public` | PASS. Runs `prepublishOnly`, all 102 tests, host smoke and `prepack`, then previews a public `latest` release with 14 files. Nothing was published. |
+| `npm pack --dry-run --json` | PASS. Exactly 14 intended package entries. |
+| `npm pack --json` | PASS. Creates `openclaw-typesafe-ai-0.1.0.tgz`; SHA-256 `724cadfdac111d43d0170aaba54c7d5e155aea4a231d6a4068e9b5ddbb5da0d6`. |
 | Tarball inspection | PASS. Each entry is a regular file and matches the local built artifact byte for byte. No fixtures, test credentials, private keys, environment files, local user paths, tests, scripts, source maps or dependency directory are shipped. |
 | Lint | Not configured. Typecheck, contract tests, plugin validation and Git whitespace review provide the applicable checks. |
 | Git review | The initial source additions were reviewed with a no-index diff against an empty directory. No whitespace errors or unrelated files were found. The public repository contains only this package. |
@@ -41,7 +45,7 @@ Packaging used a temporary npm cache because the default cache was not writable 
 
 `test/plugin.test.ts` covers exactly one optional registration, no provider, generated metadata and SecretRef ownership, unresolved/blocked/missing credentials before network access, stale-key rejection, signal propagation, ignored ambient endpoint/model/logging controls, no console output and a mocked end-to-end invocation of the registered tool. Throwing getters guard against implicit configuration/runtime context reads.
 
-`test/live-smoke.test.mjs` checks the live script's approval gate, a mocked invocation using the real exported read-only env SecretRef resolver, and a missing-credential failure before HTTP. This is mock-based proof, not a live API result.
+`test/live-smoke.test.mjs` checks the live script's approval gate, a mocked invocation using the real exported read-only env SecretRef resolver, and a missing-credential failure before HTTP. Separately, an authorized protected live call exercised the built direct client against the fixed TypeSafe endpoint with synthetic input. It returned model `jev-1.13.0`, a validated Noul answer and integer usage counters without logging the credential or response body.
 
 ## Documentation and preflight
 
@@ -51,7 +55,7 @@ Preflight inspected the installed plugin inventory and searched ClawHub, npm and
 
 Documented contradictions remain visible in the README. The advanced guide and SDK accept structured descriptions where the HTTP overview shows strings. The current model-specific 64k total and 32k state-plus-longest-question limits supersede the primitives overview's approximate 32k wording. The live model page includes language guidance missing from the fetched full bundle. No token estimate is invented from character counts.
 
-Installation syntax was checked against the exact host's local guide and `plugins install --help`. Config, enable, allowlist, validation and inspection commands were executed only against disposable configuration. Installation itself was not performed.
+Installation syntax was checked against the exact host's local guide and `plugins install --help`. A packaged installation, config reference, enable, allowlist, validation and runtime inspection were exercised only against disposable state. The live Gateway was not installed into or modified.
 
 ## All changed files
 
@@ -80,6 +84,7 @@ All paths below are relative to the repository root. These files form the initia
 - `scripts/live-smoke.mjs`
 - `README.md`
 - `VERIFICATION.md`
+- `LICENSE`
 
 Generated installable files, excluded from Git by design:
 
@@ -90,10 +95,10 @@ Generated installable files, excluded from Git by design:
 - `dist/errors.js` and `dist/errors.d.ts`
 - `openclaw-typesafe-ai-0.1.0.tgz`
 
-The tarball contains these ten `dist/` files plus `package.json`, `openclaw.plugin.json` and `README.md`. Development dependencies and temporary verification evidence are excluded.
+The tarball contains these ten `dist/` files plus `package.json`, `openclaw.plugin.json`, `README.md` and `LICENSE`. Development dependencies and temporary verification evidence are excluded.
 
 ## Live proof and remaining operator action
 
-Live API proof: **not run because no authorized API key/live-call approval was available**.
+Live API proof: **PASS**. A separately authorized protected call used the fixed synthetic state `The service is unavailable. Please help today.`, the `jev-latest` alias and one Noul urgency question. TypeSafe returned model `jev-1.13.0`, a schema-valid Noul answer and integer usage counters. The test did not print the credential, request body or response body. It proves account connectivity and the current API contract, not future availability or production workload behavior.
 
-No implementation acceptance check remains open. Real TypeSafe account connectivity and production behavior remain `needs_evidence` until an authorized live smoke test. The README explains the opt-in command and protected SecretRef setup. Installing or enabling the plugin on the live Gateway is a separate operator action.
+No implementation acceptance check remains open. Remaining release work is registry authentication, ClawHub validation/dry-run, npm and ClawHub publication, release tagging, and clean-install verification through each published locator. Installing or enabling the plugin on the live Gateway remains a separate operator action.
