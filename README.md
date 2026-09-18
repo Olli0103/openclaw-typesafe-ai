@@ -18,7 +18,7 @@ Another independent community package already uses TypeSafe AI with OpenClaw: [`
 | Data submitted | Only caller-supplied `state`, `questions` and optional `model` | Depending on enabled features, bounded group messages or tool parameters |
 | OpenClaw surface | No hooks, model provider or background service | Group triage, tool guardrails, model routing, input audit and compaction hooks |
 | Credential path | OpenClaw capability-owned SecretInput reference | Plugin config string or `TYPESAFE_API_KEY` process environment |
-| OpenClaw 2026.9.4 disposable install | Passed for `0.1.2` from npm and ClawHub | `0.1.3` was rejected before load because its manifest category `agent-orchestration` was not recognized |
+| OpenClaw 2026.9.4 disposable install | `0.1.2` passed from npm and ClawHub; `0.1.3` changes only docs and version metadata, with registry installs repeated after publication | `0.1.3` was rejected before load because its manifest category `agent-orchestration` was not recognized |
 
 Choose this package when an agent should make an explicit typed decision over deliberately supplied data without automatic conversation or tool-call interception. Consider the community package when the broader hook-based policy is the intended design, after verifying that its current release installs on the target OpenClaw version and that its automatic data flow matches the deployment's privacy policy.
 
@@ -65,13 +65,13 @@ openclaw plugins install clawhub:openclaw-typesafe-ai
 The same release is also available through npm:
 
 ```sh
-openclaw plugins install npm:openclaw-typesafe-ai@0.1.2
+openclaw plugins install npm:openclaw-typesafe-ai@0.1.3
 ```
 
 For local artifact testing, install an explicitly reviewed tarball:
 
 ```sh
-openclaw plugins install npm-pack:/absolute/path/openclaw-typesafe-ai-0.1.2.tgz
+openclaw plugins install npm-pack:/absolute/path/openclaw-typesafe-ai-0.1.3.tgz
 ```
 
 Review the source and capability prompt. For a deliberate noninteractive local installation, OpenClaw supports `--force`; it also permits overwriting an existing target, so do not add it casually. This plugin shares the ID `typesafe-ai` with a community implementation. Inspect existing inventory before installation and do not overwrite an unrelated plugin.

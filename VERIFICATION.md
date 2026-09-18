@@ -1,6 +1,6 @@
 # Implementation and verification report
 
-Verified on 2026-09-18. The external package is ready for its first public registry release. This report records checks completed before the separately authorized public GitHub publication and before registry publication. No live Gateway installation, configuration change or restart, npm/ClawHub publication, tag or GitHub release was performed. One separately authorized TypeSafe API smoke call used protected credential egress and fixed synthetic input.
+Verified on 2026-09-18. The implementation first shipped publicly as `0.1.2`. Release candidate `0.1.3` changes documentation and version metadata only, adding a transparent comparison with the pre-existing community TypeSafe plugin. This report records the candidate checks completed before its tag and registry publication. No live Gateway installation, configuration change or restart was performed. One separately authorized TypeSafe API smoke call used protected credential egress and fixed synthetic input.
 
 ## Result
 
@@ -26,12 +26,12 @@ Environment: macOS arm64, Node 24.20.0, TypeScript 5.9.3, Vitest 4.1.11. Initial
 | Installed host build | PASS. The exact copied 2026.9.4 build `6f80261` passes the checks above. The installed source tree was read only. |
 | Published npm build | PASS. The clean installation's 2026.9.4 build `3a9d69d` also passes typecheck, build, all 102 tests, metadata check, validator and host smoke. |
 | Production dependency audit | PASS after the Ajv 8.20.0 update. `npm audit --omit=dev --json` reports zero vulnerabilities. |
-| ClawHub package validation | PASS with Plugin Inspector: zero breakages, warnings or findings. |
-| ClawHub publication dry-run | PASS. Recognizes family `code-plugin`, version `0.1.1`, 14 files and the declared OpenClaw 2026.9.4 compatibility contract. Nothing was published. |
-| `npm publish --dry-run --access public` | PASS. Runs `prepublishOnly`, all 102 tests, host smoke and `prepack`, then previews a public `latest` release with 14 files. Nothing was published. |
+| ClawHub package validation | PASS for `0.1.3` against OpenClaw 2026.9.4 with zero breakages, warnings, deprecations or issues. |
+| ClawHub publication dry-run | Runs only after the exact release commit and tag exist; no publication occurred during the package gate. |
+| `npm publish --dry-run --access public` | PASS for `0.1.3`. Runs `prepublishOnly`, all 102 tests, host smoke and `prepack`, then previews a public `latest` release with 14 files. Nothing was published. |
 | `npm pack --dry-run --json` | PASS. Exactly 14 intended package entries. |
-| `npm pack --json` | PASS. Creates `openclaw-typesafe-ai-0.1.1.tgz`; SHA-256 `bc0aae7b1b7845be161f9970e44e43e8d4328d7161ddfbc22ed699f9c46b785a`. |
-| Tarball inspection | PASS. Each entry is a regular file and matches the local built artifact byte for byte. No fixtures, test credentials, private keys, environment files, local user paths, tests, scripts, source maps or dependency directory are shipped. |
+| `npm pack --json` | PASS. Creates `openclaw-typesafe-ai-0.1.3.tgz`; 15,252 bytes, SHA-1 `aed8e57a6ca415991aac6d41eee75555fac23da7`, SHA-256 `96e2623cc80c6951e0578730028ad8b17ad9ccba1bfae7abaf73c3d6c1a5627b`, and npm integrity `sha512-hZWfRtZcM6iMc+3QrMI7LbWaIaTvZDEvI2hwhzY+CrZR/ZHNxOkt+bqXJ2v9tq/XvfzPbpAx75Ln7c8B+SLmSA==`. |
+| Tarball inspection and local install | PASS. All 14 entries are regular files and match the local built artifact; `dist/index.js` is present. A disposable `npm-pack:` install loads plugin ID `typesafe-ai` at version `0.1.3` with tool `typesafe_decide`. No fixtures, test credentials, private keys, environment files, local user paths, tests, scripts, source maps or dependency directory are shipped. |
 | Lint | Not configured. Typecheck, contract tests, plugin validation and Git whitespace review provide the applicable checks. |
 | Git review | The initial source additions were reviewed with a no-index diff against an empty directory. No whitespace errors or unrelated files were found. The public repository contains only this package. |
 
@@ -51,7 +51,7 @@ Packaging used a temporary npm cache because the default cache was not writable 
 
 The installed OpenClaw version, SDK exports, local guides and source examples were inspected before implementation. TypeSafe's documentation bundles, the 20 requested individual pages, official JavaScript SDK 0.6.0 source and development skill informed the API contract. The skill is not a runtime dependency.
 
-Preflight inspected the installed plugin inventory and searched ClawHub, npm and GitHub. No suitable official maintained exact implementation was identified. The available [community plugin](https://github.com/jason-allen-oneal/openclaw-plugin-typesafe-ai) includes conversation hooks, triage, guardrails and routing, which do not meet this request's explicit-input single-tool scope.
+The initial exact-name preflight inspected the installed plugin inventory and searched ClawHub, npm and GitHub, but missed the differently named [community plugin](https://github.com/jason-allen-oneal/openclaw-plugin-typesafe-ai). A post-release duplicate review compared the implementations and reproduced its `0.1.3` install failure on OpenClaw 2026.9.4 because manifest category `agent-orchestration` is not accepted by that host. The README now documents the search miss, shared plugin ID, different data flow and point-in-time compatibility result. No suitable official maintained exact implementation was identified.
 
 Documented contradictions remain visible in the README. The advanced guide and SDK accept structured descriptions where the HTTP overview shows strings. The current model-specific 64k total and 32k state-plus-longest-question limits supersede the primitives overview's approximate 32k wording. The live model page includes language guidance missing from the fetched full bundle. No token estimate is invented from character counts.
 
@@ -95,7 +95,7 @@ Generated installable files, excluded from Git by design:
 - `dist/schema.js` and `dist/schema.d.ts`
 - `dist/client.js` and `dist/client.d.ts`
 - `dist/errors.js` and `dist/errors.d.ts`
-- `openclaw-typesafe-ai-0.1.1.tgz`
+- `openclaw-typesafe-ai-0.1.3.tgz`
 
 The tarball contains these ten `dist/` files plus `package.json`, `openclaw.plugin.json`, `README.md` and `LICENSE`. Development dependencies and temporary verification evidence are excluded.
 
@@ -103,4 +103,4 @@ The tarball contains these ten `dist/` files plus `package.json`, `openclaw.plug
 
 Live API proof: **PASS**. A separately authorized protected call used the fixed synthetic state `The service is unavailable. Please help today.`, the `jev-latest` alias and one Noul urgency question. TypeSafe returned model `jev-1.13.0`, a schema-valid Noul answer and integer usage counters. The test did not print the credential, request body or response body. It proves account connectivity and the current API contract, not future availability or production workload behavior.
 
-No implementation acceptance check remains open. Remaining release work is registry authentication, ClawHub validation/dry-run, npm and ClawHub publication, release tagging, and clean-install verification through each published locator. Installing or enabling the plugin on the live Gateway remains a separate operator action.
+No implementation acceptance check remains open. Remaining `0.1.3` release work is the source commit and tag, ClawHub publication dry-run, npm and ClawHub publication, and clean-install verification through each public locator. Installing or enabling the plugin on the live Gateway remains a separate operator action.
