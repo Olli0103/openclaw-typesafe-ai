@@ -1,6 +1,6 @@
 # Implementation and verification report
 
-Verified on 2026-09-18. The implementation first shipped publicly as `0.1.2`. Release candidate `0.1.3` changes documentation and version metadata only, adding a transparent comparison with the pre-existing community TypeSafe plugin. This report records the candidate checks completed before its tag and registry publication. No live Gateway installation, configuration change or restart was performed. One separately authorized TypeSafe API smoke call used protected credential egress and fixed synthetic input.
+Verified on 2026-09-18. The implementation first shipped publicly as `0.1.2`. Patch `0.1.3` changes documentation and version metadata only, adding a transparent comparison with the pre-existing community TypeSafe plugin. Commit `6525d0c05f0b7c25a6c52d3031c702436af10379` and tag `v0.1.3` are public, and the exact 14-file artifact is published on npm and ClawHub. No live Gateway installation, configuration change or restart was performed. One separately authorized TypeSafe API smoke call used protected credential egress and fixed synthetic input.
 
 ## Result
 
@@ -27,8 +27,10 @@ Environment: macOS arm64, Node 24.20.0, TypeScript 5.9.3, Vitest 4.1.11. Initial
 | Published npm build | PASS. The clean installation's 2026.9.4 build `3a9d69d` also passes typecheck, build, all 102 tests, metadata check, validator and host smoke. |
 | Production dependency audit | PASS after the Ajv 8.20.0 update. `npm audit --omit=dev --json` reports zero vulnerabilities. |
 | ClawHub package validation | PASS for `0.1.3` against OpenClaw 2026.9.4 with zero breakages, warnings, deprecations or issues. |
-| ClawHub publication dry-run | Runs only after the exact release commit and tag exist; no publication occurred during the package gate. |
-| `npm publish --dry-run --access public` | PASS for `0.1.3`. Runs `prepublishOnly`, all 102 tests, host smoke and `prepack`, then previews a public `latest` release with 14 files. Nothing was published. |
+| ClawHub publication dry-run | PASS. Resolves tag `v0.1.3` to commit `6525d0c05f0b7c25a6c52d3031c702436af10379`, 14 files and 15,252 bytes. |
+| `npm publish --dry-run --access public` | PASS for `0.1.3`. Runs `prepublishOnly`, all 102 tests, host smoke and `prepack`, then previews a public `latest` release with 14 files. |
+| npm publication and install | PASS. Public `latest` is `0.1.3`; SHA-1 and SHA-512 integrity match the verified tarball. A disposable install from `npm:openclaw-typesafe-ai@0.1.3` loads plugin `typesafe-ai` and tool `typesafe_decide`. |
+| ClawHub publication and install | PASS. Public `latestVersion` is `0.1.3`, scan status is `clean`, and source commit is the release commit above. A disposable install from `clawhub:openclaw-typesafe-ai` loads plugin `typesafe-ai` and tool `typesafe_decide`. |
 | `npm pack --dry-run --json` | PASS. Exactly 14 intended package entries. |
 | `npm pack --json` | PASS. Creates `openclaw-typesafe-ai-0.1.3.tgz`; 15,252 bytes, SHA-1 `aed8e57a6ca415991aac6d41eee75555fac23da7`, SHA-256 `96e2623cc80c6951e0578730028ad8b17ad9ccba1bfae7abaf73c3d6c1a5627b`, and npm integrity `sha512-hZWfRtZcM6iMc+3QrMI7LbWaIaTvZDEvI2hwhzY+CrZR/ZHNxOkt+bqXJ2v9tq/XvfzPbpAx75Ln7c8B+SLmSA==`. |
 | Tarball inspection and local install | PASS. All 14 entries are regular files and match the local built artifact; `dist/index.js` is present. A disposable `npm-pack:` install loads plugin ID `typesafe-ai` at version `0.1.3` with tool `typesafe_decide`. No fixtures, test credentials, private keys, environment files, local user paths, tests, scripts, source maps or dependency directory are shipped. |
@@ -103,4 +105,4 @@ The tarball contains these ten `dist/` files plus `package.json`, `openclaw.plug
 
 Live API proof: **PASS**. A separately authorized protected call used the fixed synthetic state `The service is unavailable. Please help today.`, the `jev-latest` alias and one Noul urgency question. TypeSafe returned model `jev-1.13.0`, a schema-valid Noul answer and integer usage counters. The test did not print the credential, request body or response body. It proves account connectivity and the current API contract, not future availability or production workload behavior.
 
-No implementation acceptance check remains open. Remaining `0.1.3` release work is the source commit and tag, ClawHub publication dry-run, npm and ClawHub publication, and clean-install verification through each public locator. Installing or enabling the plugin on the live Gateway remains a separate operator action.
+No `0.1.3` release or acceptance check remains open. Installing or enabling the plugin on the live Gateway remains a separate operator action.
