@@ -130,7 +130,7 @@
   },
   "name": "TypeSafe AI",
   "description": "Optional typed decisions using TypeSafe AI Jev. Sends only explicit tool inputs to TypeSafe and can incur cost.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "activation": {
     "onStartup": false
   },

@@ -1,6 +1,6 @@
 {
   "name": "openclaw-typesafe-ai",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Optional typed Jev decisions for OpenClaw",
   "license": "MIT",
   "keywords": [
