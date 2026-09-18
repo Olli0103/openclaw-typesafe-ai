@@ -30,7 +30,7 @@ Environment: macOS arm64, Node 24.20.0, TypeScript 5.9.3, Vitest 4.1.11. Initial
 | ClawHub publication dry-run | PASS. Recognizes family `code-plugin`, version `0.1.0`, 14 files and the declared OpenClaw 2026.9.4 compatibility contract. Nothing was published. |
 | `npm publish --dry-run --access public` | PASS. Runs `prepublishOnly`, all 102 tests, host smoke and `prepack`, then previews a public `latest` release with 14 files. Nothing was published. |
 | `npm pack --dry-run --json` | PASS. Exactly 14 intended package entries. |
-| `npm pack --json` | PASS. Creates `openclaw-typesafe-ai-0.1.0.tgz`; SHA-256 `724cadfdac111d43d0170aaba54c7d5e155aea4a231d6a4068e9b5ddbb5da0d6`. |
+| `npm pack --json` | PASS. Creates `openclaw-typesafe-ai-0.1.0.tgz`; SHA-256 `189db69ebc6dd8eec4e150429e27a850064a1da7997d4d77f15b28c7a9495ab8`. |
 | Tarball inspection | PASS. Each entry is a regular file and matches the local built artifact byte for byte. No fixtures, test credentials, private keys, environment files, local user paths, tests, scripts, source maps or dependency directory are shipped. |
 | Lint | Not configured. Typecheck, contract tests, plugin validation and Git whitespace review provide the applicable checks. |
 | Git review | The initial source additions were reviewed with a no-index diff against an empty directory. No whitespace errors or unrelated files were found. The public repository contains only this package. |
@@ -56,6 +56,8 @@ Preflight inspected the installed plugin inventory and searched ClawHub, npm and
 Documented contradictions remain visible in the README. The advanced guide and SDK accept structured descriptions where the HTTP overview shows strings. The current model-specific 64k total and 32k state-plus-longest-question limits supersede the primitives overview's approximate 32k wording. The live model page includes language guidance missing from the fetched full bundle. No token estimate is invented from character counts.
 
 Installation syntax was checked against the exact host's local guide and `plugins install --help`. A packaged installation, config reference, enable, allowlist, validation and runtime inspection were exercised only against disposable state. The live Gateway was not installed into or modified.
+
+The external manifest intentionally omits `categories`. OpenClaw 2026.9.4 validates the legacy taxonomy that includes `tools`, while the current ClawHub publication taxonomy retires `tools` and accepts omission for generated classification. Omission is valid for external plugins in both contracts and avoids claiming compatibility with a category slug the pinned host rejects.
 
 ## All changed files
 
